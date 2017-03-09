@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C94EE731E70F65300CD9D07 /* SelectUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C94EE721E70F65300CD9D07 /* SelectUserViewController.swift */; };
 		4CC1FDAD1E6BB317006E483D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC1FDAC1E6BB317006E483D /* AppDelegate.swift */; };
 		4CC1FDAF1E6BB317006E483D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC1FDAE1E6BB317006E483D /* SignInViewController.swift */; };
 		4CC1FDB21E6BB317006E483D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CC1FDB01E6BB317006E483D /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		3206E2E377FEB48C4E86720E /* Pods-SnapChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SnapChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SnapChat/Pods-SnapChat.debug.xcconfig"; sourceTree = "<group>"; };
+		4C94EE721E70F65300CD9D07 /* SelectUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectUserViewController.swift; sourceTree = "<group>"; };
 		4CC1FDA91E6BB317006E483D /* SnapChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnapChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CC1FDAC1E6BB317006E483D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CC1FDAE1E6BB317006E483D /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				4CC1FDAE1E6BB317006E483D /* SignInViewController.swift */,
 				4CC1FDC01E6D1C0B006E483D /* SnapsViewController.swift */,
 				4CE09E0F1E6E09320021B150 /* PictureViewController.swift */,
+				4C94EE721E70F65300CD9D07 /* SelectUserViewController.swift */,
 				4CC1FDB01E6BB317006E483D /* Main.storyboard */,
 				4CC1FDB31E6BB317006E483D /* Assets.xcassets */,
 				4CC1FDB51E6BB317006E483D /* LaunchScreen.storyboard */,
@@ -224,6 +227,7 @@
 			files = (
 				4CC1FDAF1E6BB317006E483D /* SignInViewController.swift in Sources */,
 				4CE09E101E6E09320021B150 /* PictureViewController.swift in Sources */,
+				4C94EE731E70F65300CD9D07 /* SelectUserViewController.swift in Sources */,
 				4CC1FDAD1E6BB317006E483D /* AppDelegate.swift in Sources */,
 				4CC1FDC11E6D1C0B006E483D /* SnapsViewController.swift in Sources */,
 			);
