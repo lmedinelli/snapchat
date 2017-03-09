@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 import Firebase
 
 class SignInViewController: UIViewController {
@@ -20,6 +21,8 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+       
     }
 
 
@@ -44,6 +47,9 @@ class SignInViewController: UIViewController {
                         print("User Created")
                         //self.performSegue(withIdentifier: "signInSegue", sender: nil)
                         // LM: add another alert for infor that needs to confirm the email before
+                    
+                         FIRDatabase.database().reference().child("users").child(user!.uid).child("email").setValue(user!.email!)
+                        FIRDatabase.database().reference().child("users").child(user!.uid).child("validate").setValue(false)
                         
                         let alert = UIAlertController(title: "Important", message: "Before Login, your need to confirm your email, please review your email account and press the confirm link", preferredStyle: UIAlertControllerStyle.alert)
                         
@@ -65,6 +71,7 @@ class SignInViewController: UIViewController {
                 // if email is not verified alert and not login
                 print("With email Verified : \(emailVerified!)")
                 if emailVerified! {
+                    FIRDatabase.database().reference().child("users").child(user!.uid).child("validate").setValue(true)
                     self.performSegue(withIdentifier: "signInSegue", sender: nil)
                 }else{
                     let alert = UIAlertController(title: "Imposible Login", message: "Before Login, please, take a cup of coffee and review your email for confirmation snap.", preferredStyle: UIAlertControllerStyle.alert)
