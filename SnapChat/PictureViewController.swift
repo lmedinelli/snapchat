@@ -30,22 +30,7 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        /*
-        let imageURL = info[UIImagePickerControllerReferenceURL] as! NSURL
-        let imageName = imageURL.lastPathComponent
-        let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as String
-        documentDirectory.path
-        let localPath = documentDirectory.stringByAppendingPathComponent(imageName)!
-        
-        let image2 = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let data = UIImagePNGRepresentation(image2)
-        data.writeToFile(localPath, atomically: true)
-        
-        let imageData = NSData(contentsOfFile: localPath)!
-        //let photoURL = NSURL(fileURLWithPath: localPath)
-        let imageWithData = UIImage(data: imageData)!
- */
-        
+
         //picker.dismissViewControllerAnimated(true, completion: nil)
         
         imageView.image = image
@@ -76,15 +61,33 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
         
 
         let imageData = UIImageJPEGRepresentation(imageView.image!, 0.1)!
-        //let filePath: URL = imageView.
+        //thumbnail
+        
+        let thumbImage = self.resizeImage(image: imageView.image!, targetSize: CGSize(width: 200.0, height: 200.0))
         
         
         // Create file metadata to update
         let newMetadata = FIRStorageMetadata()
         newMetadata.cacheControl = "public,max-age=300";
         newMetadata.contentType = "image/jpeg";
+        newMetadata.customMetadata = ["Thumbnail": "false"]
         
-        imagesFolder.child("\(NSUUID().uuidString).jpg").put(imageData, metadata: newMetadata) { (metadata, error) in
+        let idImageBase = NSUUID().uuidString // base for both, normal and thumbnail
+        
+        // load normal image
+        imagesFolder.child("\(idImageBase).jpg").put(imageData, metadata: newMetadata) { (metadata, error) in
+            print("Trying to upload")
+            if error != nil{
+                print("Have an error:\(error)")
+            }else{
+                print(metadata!.downloadURL()!)
+                //self.performSegue(withIdentifier: "selectUserSegue", sender: nil)
+            }
+        }
+        newMetadata.customMetadata = ["Thumbnail": "true"]
+
+        // load thumb image
+        imagesFolder.child("\(idImageBase)_thumb.jpg").put(UIImageJPEGRepresentation(thumbImage, 1)!, metadata: newMetadata) { (metadata, error) in
             print("Trying to upload")
             if error != nil{
                 print("Have an error:\(error)")
@@ -93,7 +96,6 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
                 self.performSegue(withIdentifier: "selectUserSegue", sender: nil)
             }
         }
-        
         
     }
     
@@ -104,6 +106,35 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+    }
+    
+    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / image.size.width
+        let heightRatio = targetSize.height / image.size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        //let rect = CGRect(0, 0, newSize.width, newSize.height)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
     
 
